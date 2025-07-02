@@ -1,0 +1,62 @@
+.medal-map-admin {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.medal-map-admin .form-table th {
+    font-weight: 600;
+    color: #23282d;
+}
+
+.medal-map-admin .button-primary {
+    background: #0073aa;
+    border-color: #0073aa;
+}
+
+.medal-map-admin .button-primary:hover {
+    background: #005a87;
+    border-color: #005a87;
+}
+
+.status-active {
+    color: #0073aa;
+    font-weight: 600;
+}
+
+.status-inactive {
+    color: #a7aaad;
+    font-weight: 600;
+}
+
+.medal-map-admin .wp-list-table td.column-actions {
+    text-align: right;
+}
+
+.medal-map-admin .image-preview {
+    max-width: 200px;
+    max-height: 150px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.medal-map-admin .medal-form-group {
+    margin-bottom: 20px;
+}
+
+.medal-map-admin .medal-coordinates {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.medal-map-admin .coordinate-input {
+    width: 80px;
+}
+
+.medal-map-admin .color-picker {
+    width: 50px;
+    height: 35px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

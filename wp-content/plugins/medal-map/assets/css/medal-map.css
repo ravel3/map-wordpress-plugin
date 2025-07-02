@@ -1,0 +1,383 @@
+/* Medal Map CSS Styles */
+
+/* Kontener główny */
+.medal-map-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Kontrolki mapy */
+.medal-map-controls {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.medal-map-controls label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.medal-map-select {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    transition: border-color 0.15s ease-in-out;
+}
+
+.medal-map-select:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+/* Mapa */
+.medal-map-leaflet {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Statusy ładowania */
+.medal-map-loading {
+    text-align: center;
+    padding: 40px 20px;
+    font-style: italic;
+    color: #6c757d;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+}
+
+.medal-map-error {
+    padding: 15px;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    color: #721c24;
+    margin: 10px 0;
+}
+
+.medal-map-success {
+    padding: 15px;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+    color: #155724;
+    margin: 10px 0;
+}
+
+/* Informacje o mapie */
+.medal-map-info {
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f1f8e9 100%);
+    border: 1px solid #90caf9;
+    border-radius: 8px;
+}
+
+.medal-map-info h4 {
+    margin: 0 0 10px 0;
+    color: #1565c0;
+    font-size: 18px;
+}
+
+.medal-map-info p {
+    margin: 5px 0;
+    color: #424242;
+}
+
+/* Modale */
+.medal-map-modal {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    animation: fadeIn 0.3s;
+}
+
+.medal-map-modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+}
+
+.medal-map-modal-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.medal-map-modal-close:hover {
+    color: #000;
+    background: #f0f0f0;
+}
+
+/* Formularz e-mail */
+.medal-map-modal h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 22px;
+}
+
+.medal-map-modal p {
+    margin: 0 0 20px 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.medal-map-modal input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.medal-map-modal input[type="email"]:focus {
+    outline: none;
+    border-color: #0073aa;
+}
+
+.medal-map-modal button {
+    background: linear-gradient(135deg, #0073aa 0%, #005a87 100%);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.medal-map-modal button:hover {
+    background: linear-gradient(135deg, #005a87 0%, #004666 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.medal-map-modal button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Informacje o medalu */
+.medal-info {
+    line-height: 1.6;
+}
+
+.medal-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.medal-info-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.medal-info-value {
+    color: #6c757d;
+}
+
+.medal-available {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.medal-unavailable {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Przyciski akcji */
+.medal-action-button {
+    background: linear-gradient(135deg, #28a745 0%, #20853d 100%);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 5px 0 0;
+    transition: all 0.3s;
+}
+
+.medal-action-button:hover {
+    background: linear-gradient(135deg, #20853d 0%, #1c7430 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.medal-action-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.medal-action-button.danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.medal-action-button.danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+}
+
+/* Niestandardowe style dla Leaflet popup */
+.medal-popup {
+    min-width: 200px;
+}
+
+.medal-popup h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.medal-popup p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.medal-popup .medal-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.medal-popup .medal-status.available {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.medal-popup .medal-status.unavailable {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Animacje */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .medal-map-modal-content {
+        margin: 5% auto;
+        width: 95%;
+        padding: 20px;
+    }
+
+    .medal-map-controls {
+        padding: 10px;
+    }
+
+    .medal-map-select {
+        max-width: 100%;
+    }
+
+    .medal-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .medal-info-value {
+        margin-top: 5px;
+    }
+}
+
+/* Dostosowania dla różnych motywów WordPress */
+.wp-admin .medal-map-container {
+    background: transparent;
+}
+
+/* Styl dla pinezek z różnymi stanami */
+.medal-marker-available {
+    filter: hue-rotate(0deg) brightness(1);
+}
+
+.medal-marker-low {
+    filter: hue-rotate(45deg) brightness(0.9);
+}
+
+.medal-marker-unavailable {
+    filter: grayscale(100%) brightness(0.7);
+}
+
+/* Loading spinner */
+.medal-map-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #0073aa;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

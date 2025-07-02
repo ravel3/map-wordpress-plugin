@@ -1,0 +1,33 @@
+# Medal Map Database System
+# Copyright (C) 2024
+# This file is distributed under the same license as the Medal Map Database System package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Medal Map Database System 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Mapy Medalów"
+msgstr ""
+
+msgid "Wszystkie Mapy"
+msgstr ""
+
+msgid "Dodaj Mapę"
+msgstr ""
+
+msgid "Medale"
+msgstr ""
+
+msgid "Historia"
+msgstr ""
+
+msgid "Ustawienia"
+msgstr ""
