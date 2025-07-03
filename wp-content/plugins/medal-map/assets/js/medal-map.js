@@ -126,6 +126,12 @@ class MedalMapSystem {
     }
 
     populateMapSelector(maps) {
+        // Jeśli jest preselected map, ustaw ją
+        if (this.options.preselectedMapId) {
+            // selector.value = this.options.preselectedMapId;
+            this.loadMap(this.options.preselectedMapId);
+        }
+
         const selector = this.container.querySelector('.medal-map-select');
         if (!selector) return;
 
@@ -140,12 +146,6 @@ class MedalMapSystem {
             option.textContent = map.name;
             selector.appendChild(option);
         });
-
-        // Jeśli jest preselected map, ustaw ją
-        if (this.options.preselectedMapId) {
-            selector.value = this.options.preselectedMapId;
-            this.loadMap(this.options.preselectedMapId);
-        }
     }
 
     loadMap(mapId) {

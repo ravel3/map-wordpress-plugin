@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 define('MEDAL_MAP_VERSION', '2.0.0');
 define('MEDAL_MAP_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('MEDAL_MAP_PLUGIN_PATH', plugin_dir_path(__FILE__));
+require_once MEDAL_MAP_PLUGIN_PATH . 'includes/class-database.php';
+
 
 /**
  * Główna klasa pluginu Medal Map
@@ -35,9 +37,9 @@ class MedalMapPlugin {
 
     private function __construct() {
         add_action('init', array($this, 'init'));
-        register_activation_hook(__FILE__, array($this, 'activate'));
-        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
-        register_uninstall_hook(__FILE__, array('MedalMapPlugin', 'uninstall'));
+//        register_activation_hook(__FILE__, array($this, 'activate'));
+//        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
+//        register_uninstall_hook(__FILE__, array('MedalMapPlugin', 'uninstall'));
     }
 
     public function init() {
@@ -58,7 +60,6 @@ class MedalMapPlugin {
     }
 
     private function includes() {
-        require_once MEDAL_MAP_PLUGIN_PATH . 'includes/class-database.php';
         require_once MEDAL_MAP_PLUGIN_PATH . 'includes/class-frontend.php';
         require_once MEDAL_MAP_PLUGIN_PATH . 'includes/class-ajax.php';
         require_once MEDAL_MAP_PLUGIN_PATH . 'includes/class-shortcode.php';
@@ -93,4 +94,11 @@ class MedalMapPlugin {
 
 // Inicjalizacja pluginu
 add_action('plugins_loaded', array('MedalMapPlugin', 'get_instance'));
+// Create and return plugin instance
+$medal_map_plugin = MedalMapPlugin::get_instance();
+
+// Hook activation, deactivation, uninstall
+register_activation_hook(__FILE__, array($medal_map_plugin, 'activate'));
+register_deactivation_hook(__FILE__, array($medal_map_plugin, 'deactivate'));
+register_uninstall_hook(__FILE__, array('MedalMapPlugin', 'uninstall'));
 ?>
