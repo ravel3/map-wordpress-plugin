@@ -1,7 +1,4 @@
 <?php
-/**
- * Klasa obsługująca shortcode dla systemu map medalów
- */
 
 if (!defined('ABSPATH')) {
     exit;
@@ -17,7 +14,7 @@ class Medal_Map_Shortcode {
      * Renderowanie shortcode
      * 
      * Użycie:
-     * [medal_map]                          - wyświetla selektor map i mapę
+     * [medal_map]                         - wyświetla selektor map i mapę
      * [medal_map map_id="1"]              - wyświetla konkretną mapę
      * [medal_map height="600px"]          - ustala wysokość mapy
      * [medal_map show_selector="false"]   - ukrywa selektor map

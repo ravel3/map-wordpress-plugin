@@ -1,8 +1,4 @@
 <?php
-/**
- * Klasa obsługująca żądania AJAX dla systemu map medalów
- */
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -10,7 +6,6 @@ if (!defined('ABSPATH')) {
 class Medal_Map_Ajax {
 
     public function __construct() {
-        // Zarejestruj akcje AJAX dla zalogowanych i niezalogowanych użytkowników
         add_action('wp_ajax_medal_map_get_maps', array($this, 'get_maps'));
         add_action('wp_ajax_nopriv_medal_map_get_maps', array($this, 'get_maps'));
 
@@ -24,9 +19,6 @@ class Medal_Map_Ajax {
         add_action('wp_ajax_nopriv_medal_map_take_medal', array($this, 'take_medal'));
     }
 
-    /**
-     * Pobieranie listy wszystkich map
-     */
     public function get_maps() {
         // Sprawdź nonce
         if (!wp_verify_nonce($_POST['nonce'], 'medal_map_nonce')) {
@@ -42,11 +34,7 @@ class Medal_Map_Ajax {
         }
     }
 
-    /**
-     * Pobieranie medali dla konkretnej mapy
-     */
     public function get_medals() {
-        // Sprawdź nonce
         if (!wp_verify_nonce($_POST['nonce'], 'medal_map_nonce')) {
             wp_die('Nieprawidłowy token bezpieczeństwa');
         }
@@ -70,9 +58,6 @@ class Medal_Map_Ajax {
         ));
     }
 
-    /**
-     * Pobieranie szczegółowych informacji o medalu
-     */
     public function get_medal_info() {
         // Sprawdź nonce
         if (!wp_verify_nonce($_POST['nonce'], 'medal_map_nonce')) {
@@ -94,11 +79,7 @@ class Medal_Map_Ajax {
         }
     }
 
-    /**
-     * Zabranie medalu
-     */
     public function take_medal() {
-        // Sprawdź nonce
         if (!wp_verify_nonce($_POST['nonce'], 'medal_map_nonce')) {
             wp_die('Nieprawidłowy token bezpieczeństwa');
         }
@@ -106,7 +87,6 @@ class Medal_Map_Ajax {
         $medal_id = intval($_POST['medal_id']);
         $user_email = sanitize_email($_POST['user_email']);
 
-        // Walidacja danych
         if (!$medal_id) {
             wp_send_json_error('Nieprawidłowy ID medalu');
         }
@@ -115,13 +95,11 @@ class Medal_Map_Ajax {
             wp_send_json_error('Nieprawidłowy adres e-mail');
         }
 
-        // Sprawdź czy medal istnieje
         $medal = Medal_Map_Database::get_medal($medal_id);
         if (!$medal) {
             wp_send_json_error('Medal nie został znaleziony');
         }
 
-        // Sprawdź czy medal jest dostępny
         if ($medal->available_medals <= 0) {
             wp_send_json_error('Medal nie jest dostępny');
         }

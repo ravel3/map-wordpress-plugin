@@ -1,8 +1,4 @@
 <?php
-/**
- * Klasa obsługująca frontend systemu map medalów
- */
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -14,9 +10,6 @@ class Medal_Map_Frontend {
         add_action('wp_head', array($this, 'add_custom_styles'));
     }
 
-    /**
-     * Ładowanie skryptów i stylów
-     */
     public function enqueue_scripts() {
         // Leaflet CSS
         wp_enqueue_style(
@@ -52,7 +45,7 @@ class Medal_Map_Frontend {
             true
         );
 
-        // Lokalizacja skryptu
+
         wp_localize_script('medal-map-js', 'medalMapAjax', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('medal_map_nonce'),
@@ -71,9 +64,6 @@ class Medal_Map_Frontend {
         ));
     }
 
-    /**
-     * Dodawanie niestandardowych stylów
-     */
     public function add_custom_styles() {
         ?>
         <style>

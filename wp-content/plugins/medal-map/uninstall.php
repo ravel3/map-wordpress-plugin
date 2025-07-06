@@ -15,7 +15,6 @@ if (get_option('medal_map_delete_data_on_uninstall', false)) {
     // Lista tabel do usunięcia
     $tables = array(
         $wpdb->prefix . 'medal_history',
-        $wpdb->prefix . 'medal_medal_status',
         $wpdb->prefix . 'medal_medals',
         $wpdb->prefix . 'medal_maps'
     );

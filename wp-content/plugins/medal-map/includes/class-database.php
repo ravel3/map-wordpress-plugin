@@ -5,15 +5,12 @@ if (!defined('ABSPATH')) {
 
 class Medal_Map_Database {
 
-    /**
-     * Tworzenie tabel bazy danych
-     */
     public static function create_tables() {
         global $wpdb;
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        // Tabela map
+
         $table_maps = $wpdb->prefix . 'medal_maps';
         $sql_maps = "CREATE TABLE $table_maps (
             id int(11) NOT NULL AUTO_INCREMENT,
@@ -31,7 +28,7 @@ class Medal_Map_Database {
             PRIMARY KEY (id)
         ) $charset_collate;";
 
-        // Tabela medali (dane niezmienne)
+
         $table_medals = $wpdb->prefix . 'medal_medals';
         $sql_medals = "CREATE TABLE $table_medals (
             id int(11) NOT NULL AUTO_INCREMENT,
@@ -51,7 +48,6 @@ class Medal_Map_Database {
         ) $charset_collate;";
 
 
-        // Tabela historii pobrań
         $table_medal_history = $wpdb->prefix . 'medal_history';
         $sql_medal_history = "CREATE TABLE $table_medal_history (
             id int(11) NOT NULL AUTO_INCREMENT,
@@ -95,9 +91,6 @@ class Medal_Map_Database {
         delete_option('medal_map_db_version');
     }
 
-    /**
-     * Pobieranie wszystkich map
-     */
     public static function get_maps() {
         global $wpdb;
 
@@ -105,9 +98,6 @@ class Medal_Map_Database {
         return $wpdb->get_results("SELECT * FROM $table_maps WHERE status = 'active' ORDER BY name");
     }
 
-    /**
-     * Pobieranie mapy po ID
-     */
     public static function get_map($map_id) {
         global $wpdb;
 
@@ -115,14 +105,10 @@ class Medal_Map_Database {
         return $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_maps WHERE id = %d", $map_id));
     }
 
-    /**
-     * Pobieranie medali dla konkretnej mapy
-     */
     public static function get_medals_for_map($map_id) {
         global $wpdb;
 
         $table_medals = $wpdb->prefix . 'medal_medals';
-        $table_status = $wpdb->prefix . 'medal_medal_status';
 
         $sql = "SELECT m.* 
                 FROM $table_medals m 
@@ -132,9 +118,6 @@ class Medal_Map_Database {
         return $wpdb->get_results($wpdb->prepare($sql, $map_id));
     }
 
-    /**
-     * Pobieranie medalu po ID
-     */
     public static function get_medal($medal_id) {
         global $wpdb;
 
@@ -147,9 +130,6 @@ class Medal_Map_Database {
         return $wpdb->get_row($wpdb->prepare($sql, $medal_id));
     }
 
-    /**
-     * Zabranie medalu
-     */
     public static function take_medal($medal_id, $user_email) {
         global $wpdb;
 
