@@ -26,6 +26,8 @@ class Medal_Map_Shortcode {
             'width' => '100%',
             'show_selector' => 'true',
             'auto_zoom' => 'true',
+            'snap_zoom' => 0.25,
+            'delta_zoom' => 0.25,
             'class' => ''
         ), $atts, 'medal_map');
 
@@ -101,8 +103,11 @@ class Medal_Map_Shortcode {
                 mapId: '<?php echo esc_js($map_id); ?>',
                 preselectedMapId: <?php echo $atts['map_id'] ? intval($atts['map_id']) : 'null'; ?>,
                 showSelector: <?php echo $atts['show_selector'] === 'true' ? 'true' : 'false'; ?>,
-                autoZoom: <?php echo $atts['auto_zoom'] === 'true' ? 'true' : 'false'; ?>
-            });
+                autoZoom: <?php echo $atts['auto_zoom'] === 'true' ? 'true' : 'false'; ?>,
+                snapZoom: <?php echo $atts['snap_zoom']; ?>,
+                deltaZoom: <?php echo $atts['delta_zoom']; ?>
+
+        });
         });
         </script>
 

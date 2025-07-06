@@ -192,7 +192,9 @@ class MedalMapSystem {
             minZoom: map.min_zoom,
             maxZoom: map.max_zoom,
             zoomControl: true,
-            scrollWheelZoom: true
+            scrollWheelZoom: true,
+            zoomSnap: this.options.snapZoom,
+            zoomDelta: this.options.deltaZoom
         });
 
         this.leafletMap._medalMapSystem = this
@@ -208,7 +210,7 @@ class MedalMapSystem {
 
         // Ustaw widok
         this.leafletMap.setMaxBounds(this.imageBounds);
-        this.leafletMap.setView([map.image_height / 2,  map.image_width / 2], 0);
+        this.leafletMap.setView([map.image_height / 2,  map.image_width / 2], map.default_zoom);
 
         // Pokaż mapę
         this.mapElement.style.display = 'block';
@@ -273,7 +275,7 @@ class MedalMapSystem {
         const takenByUser = this.medalTakenByUser(medal.id);
         let button = "";
 
-        if (takenByUser === false) {
+        if (takenByUser === false && medal.available_medals > 0) {
             button = `<button 
                     id="take-medal-${medal.id}" 
                     data-medal-id="${medal.id}" 
@@ -281,14 +283,14 @@ class MedalMapSystem {
                     style="background: #28a745; color: white; border: none; 
                            padding: 10px 20px; border-radius: 5px; cursor: pointer; 
                            font-weight: bold; font-size: 14px;">
-                    🏆 Zabieram medal
+                    🏅 Zabieram medal
                   </button>`;
         }
 
         return `
         <div style="text-align: center; min-width: 200px;">
-            <h3 style="margin: 0 0 10px 0; color: #2c5aa0;">🏆 ${medal.name}</h3>
-            <p style="margin: 5px 0; color: #666;">${medal.desc}</p>
+            <h3 style="margin: 0 0 10px 0; color: #2c5aa0;">🏅 ${medal.name}</h3>
+            <p style="margin: 5px 0; color: #666;">${medal.description}</p>
             <p style="margin: 10px 0 15px 0; font-weight: bold; color: #28a745;">
                 Dostępne: ${medal.available_medals}/${medal.total_medals} medali
             </p>
