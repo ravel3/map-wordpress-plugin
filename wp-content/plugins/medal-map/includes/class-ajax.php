@@ -127,16 +127,17 @@ class Medal_Map_Ajax {
         }
 
         // Opcjonalne: sprawdź czy użytkownik już nie zabrał tego medalu
-        global $wpdb;
-        $table_history = $wpdb->prefix . 'medal_history';
-        $already_taken = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $table_history WHERE medal_id = %d AND user_email = %s",
-            $medal_id, $user_email
-        ));
-
-        if ($already_taken > 0) {
-            wp_send_json_error('Już zabrałeś ten medal');
-        }
+        //TODO: consider to enable once providing e-mail is required
+//        global $wpdb;
+//        $table_history = $wpdb->prefix . 'medal_history';
+//        $already_taken = $wpdb->get_var($wpdb->prepare(
+//            "SELECT COUNT(*) FROM $table_history WHERE medal_id = %d AND user_email = %s",
+//            $medal_id, $user_email
+//        ));
+//
+//        if ($already_taken > 0) {
+//            wp_send_json_error('Już zabrałeś ten medal');
+//        }
 
         // Zabierz medal
         $result = Medal_Map_Database::take_medal($medal_id, $user_email);

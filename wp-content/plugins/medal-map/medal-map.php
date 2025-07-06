@@ -73,9 +73,6 @@ class MedalMapPlugin {
         // Tworzenie tabel bazy danych
         Medal_Map_Database::create_tables();
 
-        // Dodanie przykładowych danych
-        Medal_Map_Database::insert_sample_data();
-
         // Flush rewrite rules
         flush_rewrite_rules();
     }

@@ -19,7 +19,7 @@ class MedalMapSystem {
         this.currentMapData = null;
         this.medalMarkers = [];
         // this.userEmail = this.getUserEmail();
-        this.userEmail = 'my@e-mial.pl';
+        this.userEmail = 'test@e-mial.pl';
         this.imageBounds = null;
         this.medals = null;
         this.init();

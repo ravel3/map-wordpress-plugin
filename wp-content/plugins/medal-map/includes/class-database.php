@@ -1,8 +1,4 @@
 <?php
-/**
- * Klasa zarządzająca bazą danych dla systemu map medalów
- */
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -44,29 +40,16 @@ class Medal_Map_Database {
             description text,
             x_coordinate int(11) NOT NULL,
             y_coordinate int(11) NOT NULL,
-            radius int(11) DEFAULT 10,
             total_medals int(11) DEFAULT 1,
-            color varchar(7) DEFAULT '#ff0000',
-            created_at datetime DEFAULT CURRENT_TIMESTAMP,
-            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (id),
-            FOREIGN KEY (map_id) REFERENCES $table_maps(id) ON DELETE CASCADE
-        ) $charset_collate;";
-
-        // Tabela stanu medali (dane zmienne)
-        $table_medal_status = $wpdb->prefix . 'medal_medal_status';
-        $sql_medal_status = "CREATE TABLE $table_medal_status (
-            id int(11) NOT NULL AUTO_INCREMENT,
-            medal_id int(11) NOT NULL,
             available_medals int(11) DEFAULT 0,
             last_taken_at datetime NULL,
             last_taken_by varchar(255) NULL,
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
-            UNIQUE KEY unique_medal (medal_id),
-            FOREIGN KEY (medal_id) REFERENCES $table_medals(id) ON DELETE CASCADE
+            FOREIGN KEY (map_id) REFERENCES $table_maps(id) ON DELETE CASCADE
         ) $charset_collate;";
+
 
         // Tabela historii pobrań
         $table_medal_history = $wpdb->prefix . 'medal_history';
@@ -87,7 +70,6 @@ class Medal_Map_Database {
 
         dbDelta($sql_maps);
         dbDelta($sql_medals);
-        dbDelta($sql_medal_status);
         dbDelta($sql_medal_history);
 
         // Dodanie opcji wersji bazy danych
@@ -102,7 +84,6 @@ class Medal_Map_Database {
 
         $tables = array(
             $wpdb->prefix . 'medal_history',
-            $wpdb->prefix . 'medal_medal_status',
             $wpdb->prefix . 'medal_medals',
             $wpdb->prefix . 'medal_maps'
         );
@@ -112,175 +93,6 @@ class Medal_Map_Database {
         }
 
         delete_option('medal_map_db_version');
-    }
-
-    /**
-     * Dodanie przykładowych danych
-     */
-    public static function insert_sample_data() {
-        global $wpdb;
-
-        $table_maps = $wpdb->prefix . 'medal_maps';
-        $table_medals = $wpdb->prefix . 'medal_medals';
-        $table_medal_status = $wpdb->prefix . 'medal_medal_status';
-
-        // Sprawdź czy dane już istnieją
-        $existing_maps = $wpdb->get_var("SELECT COUNT(*) FROM $table_maps");
-        if ($existing_maps > 0) {
-            return;
-        }
-
-        // Dodaj przykładowe mapy
-        $maps_data = array(
-            array(
-                'name' => 'Beskidy',
-                'description' => 'Mapa medalów Beskidów',
-                'image_url' => MEDAL_MAP_PLUGIN_URL . 'images/beskidy-map.jpg',
-                'image_width' => 1200,
-                'image_height' => 800,
-                'min_zoom' => 0,
-                'max_zoom' => 3,
-                'default_zoom' => 1
-            ),
-            array(
-                'name' => 'Małopolska',
-                'description' => 'Mapa medalów Małopolski',
-                'image_url' => MEDAL_MAP_PLUGIN_URL . 'images/malopolska-map.jpg',
-                'image_width' => 1000,
-                'image_height' => 800,
-                'min_zoom' => 0,
-                'max_zoom' => 3,
-                'default_zoom' => 1
-            ),
-            array(
-                'name' => 'Tatry',
-                'description' => 'Mapa medalów Tatr',
-                'image_url' => MEDAL_MAP_PLUGIN_URL . 'images/tatry-map.jpg',
-                'image_width' => 1100,
-                'image_height' => 700,
-                'min_zoom' => 0,
-                'max_zoom' => 3,
-                'default_zoom' => 1
-            )
-        );
-
-        $map_ids = array();
-        foreach ($maps_data as $map) {
-            $wpdb->insert($table_maps, $map);
-            $map_ids[] = $wpdb->insert_id;
-        }
-
-        // Dodaj przykładowe medale
-        $medals_data = array(
-            // Beskidy (map_id = 1)
-            array(
-                'map_id' => $map_ids[0],
-                'name' => 'Babia Góra',
-                'description' => 'Najwyższy szczyt Beskidu Żywieckiego',
-                'x_coordinate' => 300,
-                'y_coordinate' => 200,
-                'radius' => 15,
-                'total_medals' => 10,
-                'color' => '#ff0000'
-            ),
-            array(
-                'map_id' => $map_ids[0],
-                'name' => 'Pilsko',
-                'description' => 'Szczyt w Beskidzie Żywieckim',
-                'x_coordinate' => 450,
-                'y_coordinate' => 300,
-                'radius' => 12,
-                'total_medals' => 8,
-                'color' => '#00ff00'
-            ),
-            array(
-                'map_id' => $map_ids[0],
-                'name' => 'Turbacz',
-                'description' => 'Najwyższy szczyt Gorców',
-                'x_coordinate' => 600,
-                'y_coordinate' => 250,
-                'radius' => 13,
-                'total_medals' => 12,
-                'color' => '#0000ff'
-            ),
-
-            // Małopolska (map_id = 2)
-            array(
-                'map_id' => $map_ids[1],
-                'name' => 'Kraków - Rynek',
-                'description' => 'Główny Rynek w Krakowie',
-                'x_coordinate' => 400,
-                'y_coordinate' => 350,
-                'radius' => 20,
-                'total_medals' => 15,
-                'color' => '#ff00ff'
-            ),
-            array(
-                'map_id' => $map_ids[1],
-                'name' => 'Wawel',
-                'description' => 'Zamek Królewski na Wawelu',
-                'x_coordinate' => 420,
-                'y_coordinate' => 380,
-                'radius' => 18,
-                'total_medals' => 20,
-                'color' => '#ffff00'
-            ),
-            array(
-                'map_id' => $map_ids[1],
-                'name' => 'Wieliczka',
-                'description' => 'Kopalnia Soli w Wieliczce',
-                'x_coordinate' => 500,
-                'y_coordinate' => 400,
-                'radius' => 14,
-                'total_medals' => 6,
-                'color' => '#00ffff'
-            ),
-
-            // Tatry (map_id = 3)
-            array(
-                'map_id' => $map_ids[2],
-                'name' => 'Rysy',
-                'description' => 'Najwyższy szczyt dostępny dla turystów',
-                'x_coordinate' => 550,
-                'y_coordinate' => 150,
-                'radius' => 16,
-                'total_medals' => 5,
-                'color' => '#ff8000'
-            ),
-            array(
-                'map_id' => $map_ids[2],
-                'name' => 'Kasprowy Wierch',
-                'description' => 'Popularny szczyt dostępny kolejką',
-                'x_coordinate' => 400,
-                'y_coordinate' => 200,
-                'radius' => 14,
-                'total_medals' => 18,
-                'color' => '#8000ff'
-            ),
-            array(
-                'map_id' => $map_ids[2],
-                'name' => 'Morskie Oko',
-                'description' => 'Najpiękniejsze jezioro w Tatrach',
-                'x_coordinate' => 500,
-                'y_coordinate' => 300,
-                'radius' => 12,
-                'total_medals' => 25,
-                'color' => '#0080ff'
-            )
-        );
-
-        $medal_ids = array();
-        foreach ($medals_data as $medal) {
-            $wpdb->insert($table_medals, $medal);
-            $medal_id = $wpdb->insert_id;
-            $medal_ids[] = $medal_id;
-
-            // Dodaj status medalu
-            $wpdb->insert($table_medal_status, array(
-                'medal_id' => $medal_id,
-                'available_medals' => $medal['total_medals']
-            ));
-        }
     }
 
     /**
@@ -312,9 +124,8 @@ class Medal_Map_Database {
         $table_medals = $wpdb->prefix . 'medal_medals';
         $table_status = $wpdb->prefix . 'medal_medal_status';
 
-        $sql = "SELECT m.*, s.available_medals, s.last_taken_at, s.last_taken_by 
+        $sql = "SELECT m.* 
                 FROM $table_medals m 
-                LEFT JOIN $table_status s ON m.id = s.medal_id 
                 WHERE m.map_id = %d 
                 ORDER BY m.name";
 
@@ -328,11 +139,9 @@ class Medal_Map_Database {
         global $wpdb;
 
         $table_medals = $wpdb->prefix . 'medal_medals';
-        $table_status = $wpdb->prefix . 'medal_medal_status';
 
-        $sql = "SELECT m.*, s.available_medals, s.last_taken_at, s.last_taken_by 
+        $sql = "SELECT m.* 
                 FROM $table_medals m 
-                LEFT JOIN $table_status s ON m.id = s.medal_id 
                 WHERE m.id = %d";
 
         return $wpdb->get_row($wpdb->prepare($sql, $medal_id));
@@ -344,7 +153,7 @@ class Medal_Map_Database {
     public static function take_medal($medal_id, $user_email) {
         global $wpdb;
 
-        $table_status = $wpdb->prefix . 'medal_medal_status';
+        $table_medals = $wpdb->prefix . 'medal_medals';
         $table_history = $wpdb->prefix . 'medal_history';
 
         // Rozpocznij transakcję
@@ -352,25 +161,25 @@ class Medal_Map_Database {
 
         try {
             // Sprawdź dostępność medalu
-            $status = $wpdb->get_row($wpdb->prepare(
-                "SELECT * FROM $table_status WHERE medal_id = %d FOR UPDATE", 
+            $medal = $wpdb->get_row($wpdb->prepare(
+                "SELECT * FROM $table_medals WHERE id = %d FOR UPDATE",
                 $medal_id
             ));
 
-            if (!$status || $status->available_medals <= 0) {
+            if (!$medal || $medal->available_medals <= 0) {
                 $wpdb->query('ROLLBACK');
                 return array('success' => false, 'message' => 'Medal nie jest dostępny');
             }
 
             // Zmniejsz liczbę dostępnych medali
             $updated = $wpdb->update(
-                $table_status,
+                $table_medals,
                 array(
-                    'available_medals' => $status->available_medals - 1,
+                    'available_medals' => $medal->available_medals - 1,
                     'last_taken_at' => current_time('mysql'),
                     'last_taken_by' => $user_email
                 ),
-                array('medal_id' => $medal_id),
+                array('id' => $medal_id),
                 array('%d', '%s', '%s'),
                 array('%d')
             );
@@ -401,7 +210,7 @@ class Medal_Map_Database {
 
             return array(
                 'success' => true,
-                'available_medals' => $status->available_medals - 1,
+                'available_medals' => $medal->available_medals - 1,
                 'last_taken_at' => current_time('mysql')
             );
 

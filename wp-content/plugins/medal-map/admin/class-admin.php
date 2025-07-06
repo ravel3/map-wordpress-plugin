@@ -365,7 +365,7 @@ class Medal_Map_Admin {
                                    name="min_zoom" 
                                    value="<?php echo $map ? esc_attr($map->min_zoom) : '0'; ?>" 
                                    class="small-text" 
-                                   min="0" 
+                                   min="-5"
                                    max="5">
 
                             <label for="max_zoom" style="margin-left: 20px;"><?php _e('Max zoom:', 'medal-map'); ?></label>
@@ -383,7 +383,7 @@ class Medal_Map_Admin {
                                    name="default_zoom" 
                                    value="<?php echo $map ? esc_attr($map->default_zoom) : '1'; ?>" 
                                    class="small-text" 
-                                   min="0" 
+                                   min="-5"
                                    max="10">
                         </td>
                     </tr>
