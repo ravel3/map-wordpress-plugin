@@ -20,8 +20,8 @@ class Medal_Map_Admin {
      */
     public function add_admin_menu() {
         add_menu_page(
-            __('Mapy Medalów', 'medal-map'),
-            __('Mapy Medalów', 'medal-map'),
+            __('Mapy Medali', 'medal-map'),
+            __('Mapy Medali', 'medal-map'),
             'manage_options',
             'medal-map',
             array($this, 'admin_page'),
@@ -65,14 +65,6 @@ class Medal_Map_Admin {
             array($this, 'history_page')
         );
 
-        add_submenu_page(
-            'medal-map',
-            __('Ustawienia', 'medal-map'),
-            __('Ustawienia', 'medal-map'),
-            'manage_options',
-            'medal-map-settings',
-            array($this, 'settings_page')
-        );
     }
 
     /**
@@ -423,7 +415,6 @@ class Medal_Map_Admin {
      * Strona medali
      */
     public function medals_page() {
-        // Implementacja strony medali - podobnie jak mapy
         ?>
         <div class="wrap">
             <h1><?php _e('Zarządzanie Medalami', 'medal-map'); ?></h1>
@@ -443,19 +434,6 @@ class Medal_Map_Admin {
         </div>
         <?php
     }
-
-    /**
-     * Strona ustawień
-     */
-    public function settings_page() {
-        ?>
-        <div class="wrap">
-            <h1><?php _e('Ustawienia Systemu Map', 'medal-map'); ?></h1>
-            <p><?php _e('Ustawienia systemu będą dostępne w pełnej wersji.', 'medal-map'); ?></p>
-        </div>
-        <?php
-    }
-
     /**
      * Obsługa dodawania mapy
      */
@@ -470,9 +448,9 @@ class Medal_Map_Admin {
             'image_url' => esc_url($_POST['map_image']),
             'image_width' => intval($_POST['image_width']),
             'image_height' => intval($_POST['image_height']),
-            'min_zoom' => intval($_POST['min_zoom']),
-            'max_zoom' => intval($_POST['max_zoom']),
-            'default_zoom' => intval($_POST['default_zoom']),
+            'min_zoom' => doubleval($_POST['min_zoom']),
+            'max_zoom' => doubleval($_POST['max_zoom']),
+            'default_zoom' => doubleval($_POST['default_zoom']),
             'status' => sanitize_text_field($_POST['map_status'])
         );
 

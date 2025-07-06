@@ -107,13 +107,6 @@ class Medal_Map_Frontend {
             margin: 10px 0;
         }
 
-        .medal-map-info {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e6f3ff;
-            border: 1px solid #99ccff;
-            border-radius: 4px;
-        }
         </style>
         <?php
     }

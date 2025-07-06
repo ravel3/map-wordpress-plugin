@@ -35,6 +35,7 @@ class Medal_Map_Database {
             map_id int(11) NOT NULL,
             name varchar(255) NOT NULL,
             description text,
+            pk_no varchar(20),
             x_coordinate int(11) NOT NULL,
             y_coordinate int(11) NOT NULL,
             total_medals int(11) DEFAULT 1,

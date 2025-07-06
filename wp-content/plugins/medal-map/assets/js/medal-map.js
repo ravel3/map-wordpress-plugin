@@ -74,9 +74,6 @@ class MedalMapSystem {
         if (loading) loading.style.display = 'block';
 
         if (this.mapElement) this.mapElement.style.display = 'none';
-
-        const info = this.container.querySelector('.medal-map-info');
-        if (info) info.style.display = 'none';
     }
 
     hideLoading() {
@@ -167,7 +164,7 @@ class MedalMapSystem {
                     this.currentMapData = response.data;
                     this.initializeLeafletMap();
                     this.reloadMedalsToMap();
-                    this.showMapInfo();
+                    this.updateMedalTable()
                     this.hideLoading();
                 } else {
                     this.showError(response.data || medalMapAjax.messages.error);
@@ -286,7 +283,7 @@ class MedalMapSystem {
                     🏅 Zabieram medal
                   </button>`;
         }
-
+        let lastTakenAt = medal.last_taken_at ? medal.last_taken_at : 'Nigdy'
         return `
         <div style="text-align: center; min-width: 200px;">
             <h3 style="margin: 0 0 10px 0; color: #2c5aa0;">🏅 ${medal.name}</h3>
@@ -294,6 +291,7 @@ class MedalMapSystem {
             <p style="margin: 10px 0 15px 0; font-weight: bold; color: #28a745;">
                 Dostępne: ${medal.available_medals}/${medal.total_medals} medali
             </p>
+            <p style="margin: 5px 0; color: #666;">Ostatnie zabranie: ${lastTakenAt}</p>
             ${button}
         </div>
     `;
@@ -416,33 +414,7 @@ class MedalMapSystem {
     //     }
     // }
 
-    showMapInfo() {
-        const info = this.container.querySelector('.medal-map-info');
-        if (!info) return;
-
-        const description = info.querySelector(`#map-description-${this.options.containerId.split('-').pop()}`);
-        const medalsCount = info.querySelector(`#medals-count-${this.options.containerId.split('-').pop()}`);
-
-        const map = this.currentMapData.map;
-        const medals = this.currentMapData.medals;
-        const totalMedals = this.medals.reduce((sum, medal) => sum + medal.total_medals, 0);
-        const availableMedals = this.medals.reduce((sum, medal) => sum + medal.available_medals, 0);
-
-        if (description) {
-            description.innerHTML = map.description || '';
-        }
-
-        if (medalsCount) {
-            medalsCount.innerHTML = `
-                <p><strong>Łącznie medali:</strong> ${totalMedals}</p>
-                <p><strong>Dostępne medale:</strong> ${availableMedals}</p>
-                <p><strong>Liczba punktów:</strong> ${this.medals.length}</p>
-            `;
-        }
-
-        info.style.display = 'block';
-    }
-//TODO: use it instead of alert
+//TODO: use it instead of alert + display at the top of map with option to close
     showSuccess(message) {
         let successDiv = this.container.querySelector('.medal-map-success');
         if (!successDiv) {
@@ -454,18 +426,17 @@ class MedalMapSystem {
         successDiv.textContent = message;
         successDiv.style.display = 'block';
 
-        // Ukryj po 5 sekundach
         setTimeout(() => {
             successDiv.style.display = 'none';
         }, 5000);
     }
-
-    closeModals() {
-        const modals = this.container.querySelectorAll('.medal-map-modal');
-        modals.forEach(modal => {
-            modal.style.display = 'none';
-        });
-    }
+   // TODO??
+   //  closeModals() {
+   //      const modals = this.container.querySelectorAll('.medal-map-modal');
+   //      modals.forEach(modal => {
+   //          modal.style.display = 'none';
+   //      });
+   //  }
 
     getUserEmail() {
         return this.getCookie('medal_map_user_email');
@@ -558,7 +529,23 @@ class MedalMapSystem {
         // TODO: return when tabel will be available
         // this.initializeMap(updateCounters, updateMedalTable);
         this.reloadMedalsToMap()
+        this.updateMedalTable()
         alert(`Medal "${medal.name}" został zebrany!`);
+    }
+
+    updateMedalTable() {
+        const tableBody = document.getElementById('medalsTableBody');
+        tableBody.innerHTML = '';
+
+        this.medals.sort((a, b) => a.id - b.id)
+            .forEach(medal => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td data-label="Nazwa Medalu">${medal.pk_no} ${medal.name}</td>
+                        <td data-label="Medale" class="${medal.available_medals > 0 ? 'medal-count-available' : 'medal-count-zero'}">
+                        ${medal.available_medals}/${medal.total_medals} </td>`;
+
+                tableBody.appendChild(row);
+            });
     }
 }
 

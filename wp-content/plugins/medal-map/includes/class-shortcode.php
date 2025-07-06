@@ -24,7 +24,6 @@ class Medal_Map_Shortcode {
             'map_id' => '',
             'height' => '500px',
             'width' => '100%',
-            'show_selector' => 'true',
             'auto_zoom' => 'true',
             'snap_zoom' => 0.25,
             'delta_zoom' => 0.25,
@@ -55,12 +54,6 @@ class Medal_Map_Shortcode {
 
             <div id="<?php echo esc_attr($map_id); ?>" 
                  style="width: <?php echo esc_attr($atts['width']); ?>; height: <?php echo esc_attr($atts['height']); ?>; display: none;">
-            </div>
-
-            <div class="medal-map-info" id="info-<?php echo esc_attr($container_id); ?>" style="display: none;">
-                <h4><?php _e('Informacje o mapie', 'medal-map'); ?></h4>
-                <div id="map-description-<?php echo esc_attr($container_id); ?>"></div>
-                <div id="medals-count-<?php echo esc_attr($container_id); ?>"></div>
             </div>
 
         </div>
@@ -95,18 +88,31 @@ class Medal_Map_Shortcode {
             </div>
         </div>
 
+        <div class="medals-table-container">
+            <div class="medals-table-title">📋 Lista medali</div>
+            <div class="table-wrapper">
+                <table id="medalsTable">
+                    <thead>
+                    <tr>
+                        <th>Nazwa PK</th>
+                        <th>Medale</th>
+                    </tr>
+                    </thead>
+                    <tbody id="medalsTableBody">
+                    <!-- Wiersze generowane przez JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <script>
         jQuery(document).ready(function($) {
-            // Inicjalizacja mapy
             var medalMapInstance = new MedalMapSystem({
                 containerId: '<?php echo esc_js($container_id); ?>',
                 mapId: '<?php echo esc_js($map_id); ?>',
-                preselectedMapId: <?php echo $atts['map_id'] ? intval($atts['map_id']) : 'null'; ?>,
-                showSelector: <?php echo $atts['show_selector'] === 'true' ? 'true' : 'false'; ?>,
                 autoZoom: <?php echo $atts['auto_zoom'] === 'true' ? 'true' : 'false'; ?>,
                 snapZoom: <?php echo $atts['snap_zoom']; ?>,
                 deltaZoom: <?php echo $atts['delta_zoom']; ?>
-
         });
         });
         </script>
