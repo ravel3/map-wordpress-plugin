@@ -41,7 +41,6 @@ class Medal_Map_Database {
             total_medals int(11) DEFAULT 1,
             available_medals int(11) DEFAULT 1,
             last_taken_at datetime NULL,
-            last_taken_by varchar(255) NULL,
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
@@ -53,13 +52,11 @@ class Medal_Map_Database {
         $sql_medal_history = "CREATE TABLE $table_medal_history (
             id int(11) NOT NULL AUTO_INCREMENT,
             medal_id int(11) NOT NULL,
-            user_email varchar(255) NOT NULL,
             taken_at datetime DEFAULT CURRENT_TIMESTAMP,
             ip_address varchar(45),
             user_agent text,
             PRIMARY KEY (id),
             FOREIGN KEY (medal_id) REFERENCES $table_medals(id) ON DELETE CASCADE,
-            INDEX idx_medal_email (medal_id, user_email),
             INDEX idx_taken_at (taken_at)
         ) $charset_collate;";
 
@@ -131,7 +128,7 @@ class Medal_Map_Database {
         return $wpdb->get_row($wpdb->prepare($sql, $medal_id));
     }
 
-    public static function take_medal($medal_id, $user_email) {
+    public static function take_medal($medal_id) {
         global $wpdb;
 
         $table_medals = $wpdb->prefix . 'medal_medals';
@@ -157,11 +154,10 @@ class Medal_Map_Database {
                 $table_medals,
                 array(
                     'available_medals' => $medal->available_medals - 1,
-                    'last_taken_at' => current_time('mysql'),
-                    'last_taken_by' => $user_email
+                    'last_taken_at' => current_time('mysql')
                 ),
                 array('id' => $medal_id),
-                array('%d', '%s', '%s'),
+                array('%d', '%s'),
                 array('%d')
             );
 
@@ -175,11 +171,10 @@ class Medal_Map_Database {
                 $table_history,
                 array(
                     'medal_id' => $medal_id,
-                    'user_email' => $user_email,
                     'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
                     'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? ''
                 ),
-                array('%d', '%s', '%s', '%s')
+                array('%d', '%s', '%s')
             );
 
             if ($history_inserted === false) {

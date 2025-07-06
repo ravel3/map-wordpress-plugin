@@ -140,22 +140,6 @@
     line-height: 1.5;
 }
 
-.medal-map-modal input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-}
-
-.medal-map-modal input[type="email"]:focus {
-    outline: none;
-    border-color: #0073aa;
-}
-
 .medal-map-modal button {
     background: linear-gradient(135deg, #0073aa 0%, #005a87 100%);
     color: white;

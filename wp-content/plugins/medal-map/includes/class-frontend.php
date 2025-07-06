@@ -51,8 +51,6 @@ class Medal_Map_Frontend {
             'nonce' => wp_create_nonce('medal_map_nonce'),
             'plugin_url' => MEDAL_MAP_PLUGIN_URL,
             'messages' => array(
-                'email_required' => __('Proszę podać adres e-mail', 'medal-map'),
-                'invalid_email' => __('Proszę podać prawidłowy adres e-mail', 'medal-map'),
                 'loading' => __('Ładowanie...', 'medal-map'),
                 'error' => __('Wystąpił błąd', 'medal-map'),
                 'success' => __('Sukces!', 'medal-map'),

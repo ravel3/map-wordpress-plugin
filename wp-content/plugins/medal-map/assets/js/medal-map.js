@@ -18,8 +18,6 @@ class MedalMapSystem {
         this.leafletMap = null;
         this.currentMapData = null;
         this.medalMarkers = [];
-        // this.userEmail = this.getUserEmail();
-        this.userEmail = 'test@e-mial.pl';
         this.imageBounds = null;
         this.medals = null;
         this.init();
@@ -48,25 +46,6 @@ class MedalMapSystem {
 
         // Modalowe okna
         this.setupModalListeners();
-    }
-
-    setupModalListeners() {
-        // Zamknij modal po kliknięciu X lub poza modal
-        this.container.addEventListener('click', (e) => {
-            if (e.target.classList.contains('medal-map-modal-close') || 
-                e.target.classList.contains('medal-map-modal')) {
-                this.closeModals();
-            }
-        });
-
-        // Formularz e-mail
-        const emailForm = this.container.querySelector(`#email-form-${this.options.containerId.split('-').pop()}`);
-        if (emailForm) {
-            emailForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.saveUserEmail();
-            });
-        }
     }
 
     showLoading() {
@@ -297,122 +276,6 @@ class MedalMapSystem {
     `;
     }
 
-    // showMedalModal(medal) {
-    //     const modalId = `medal-modal-${this.options.containerId.split('-').pop()}`;
-    //     const modal = this.container.querySelector(`#${modalId}`);
-    //     if (!modal) return;
-    //
-    //     const title = modal.querySelector(`#medal-title-${this.options.containerId.split('-').pop()}`);
-    //     const content = modal.querySelector(`#medal-content-${this.options.containerId.split('-').pop()}`);
-    //     const actions = modal.querySelector(`#medal-actions-${this.options.containerId.split('-').pop()}`);
-    //
-    //     title.textContent = medal.name;
-    //
-    //     const isAvailable = medal.available_medals > 0;
-    //     const lastTakenText = medal.last_taken_at ?
-    //         new Date(medal.last_taken_at).toLocaleString('pl-PL') : 'Nigdy';
-    //
-    //     content.innerHTML = `
-    //         <div class="medal-info">
-    //             ${medal.description ? `<p><strong>Opis:</strong> ${medal.description}</p>` : ''}
-    //             <div class="medal-info-row">
-    //                 <span class="medal-info-label">Dostępne medale:</span>
-    //                 <span class="medal-info-value ${isAvailable ? 'medal-available' : 'medal-unavailable'}">
-    //                     ${medal.available_medals} / ${medal.total_medals}
-    //                 </span>
-    //             </div>
-    //             <div class="medal-info-row">
-    //                 <span class="medal-info-label">Ostatnio zabrany:</span>
-    //                 <span class="medal-info-value">${lastTakenText}</span>
-    //             </div>
-    //             ${medal.last_taken_by ? `
-    //             <div class="medal-info-row">
-    //                 <span class="medal-info-label">Zabrany przez:</span>
-    //                 <span class="medal-info-value">${medal.last_taken_by}</span>
-    //             </div>
-    //             ` : ''}
-    //         </div>
-    //     `;
-    //
-    //     actions.innerHTML = '';
-    //     if (isAvailable) {
-    //         const takeButton = document.createElement('button');
-    //         takeButton.className = 'medal-action-button';
-    //         takeButton.textContent = 'Zabrałem medal';
-    //         takeButton.onclick = () => this.takeMedal(medal.id);
-    //         actions.appendChild(takeButton);
-    //     }
-    //
-    //     modal.style.display = 'block';
-    // }
-
-    // takeMedal(medalId) {
-    //     if (!this.userEmail) {
-    //         this.showEmailModal(medalId);
-    //         return;
-    //     }
-    //
-    //     if (!confirm(medalMapAjax.messages.confirm_take)) {
-    //         return;
-    //     }
-    //
-    //     jQuery.ajax({
-    //         url: medalMapAjax.ajax_url,
-    //         type: 'POST',
-    //         data: {
-    //             action: 'medal_map_take_medal',
-    //             medal_id: medalId,
-    //             user_email: this.userEmail,
-    //             nonce: medalMapAjax.nonce
-    //         },
-    //         success: (response) => {
-    //             if (response.success) {
-    //                 this.showSuccess(`Medal "${response.data.medal_name}" został pomyślnie zabrany!`);
-    //                 this.closeModals();
-    //                 // Odśwież mapę
-    //                 this.loadMap(this.currentMapData.map.id);
-    //             } else {
-    //                 this.showError(response.data || medalMapAjax.messages.error);
-    //             }
-    //         },
-    //         error: () => {
-    //             this.showError(medalMapAjax.messages.error);
-    //         }
-    //     });
-    // }
-
-    // showEmailModal(medalId) {
-    //     const modalId = `email-modal-${this.options.containerId.split('-').pop()}`;
-    //     const modal = this.container.querySelector(`#${modalId}`);
-    //     if (!modal) return;
-    //
-    //     modal.style.display = 'block';
-    //     modal.dataset.medalId = medalId;
-    //
-    //     const emailInput = modal.querySelector('input[type="email"]');
-    //     if (emailInput) emailInput.focus();
-    // }
-
-    // saveUserEmail() {
-    //     const modalId = `email-modal-${this.options.containerId.split('-').pop()}`;
-    //     const modal = this.container.querySelector(`#${modalId}`);
-    //     const emailInput = modal.querySelector('input[type="email"]');
-    //
-    //     if (!emailInput.value || !this.isValidEmail(emailInput.value)) {
-    //         this.showError(medalMapAjax.messages.invalid_email);
-    //         return;
-    //     }
-    //
-    //     this.userEmail = emailInput.value;
-    //     this.setUserEmail(this.userEmail);
-    //
-    //     const medalId = modal.dataset.medalId;
-    //     this.closeModals();
-    //
-    //     if (medalId) {
-    //         this.takeMedal(parseInt(medalId));
-    //     }
-    // }
 
 //TODO: use it instead of alert + display at the top of map with option to close
     showSuccess(message) {
@@ -430,38 +293,6 @@ class MedalMapSystem {
             successDiv.style.display = 'none';
         }, 5000);
     }
-   // TODO??
-   //  closeModals() {
-   //      const modals = this.container.querySelectorAll('.medal-map-modal');
-   //      modals.forEach(modal => {
-   //          modal.style.display = 'none';
-   //      });
-   //  }
-
-    getUserEmail() {
-        return this.getCookie('medal_map_user_email');
-    }
-
-    setUserEmail(email) {
-        this.setCookie('medal_map_user_email', email, 30);
-    }
-
-    isValidEmail(email) {
-        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return re.test(email);
-    }
-
-    getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null;
-    }
-
-    setCookie(name, value, days) {
-        const expires = new Date(Date.now() + days * 864e5).toUTCString();
-        document.cookie = `${name}=${value}; expires=${expires}; path=/`;
-    }
 
 
     medalTakenByUser(medalId) {
@@ -470,20 +301,17 @@ class MedalMapSystem {
     }
 
     takeMedalByUser(medalId) {
-
             jQuery.ajax({
                 url: medalMapAjax.ajax_url,
                 type: 'POST',
                 data: {
                     action: 'medal_map_take_medal',
                     medal_id: medalId,
-                    user_email: this.userEmail,
                     nonce: medalMapAjax.nonce
                 },
                 success: (response) => {
                     if (response.success) {
                         this.showSuccess(`Medal "${response.data.medal_name}" został pomyślnie zabrany!`);
-                        this.closeModals();
 
                         const takenMedals = JSON.parse(localStorage.getItem('takenMedals') || '{}');
                         takenMedals[medalId] = true;

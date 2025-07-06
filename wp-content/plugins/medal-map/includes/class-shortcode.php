@@ -58,36 +58,6 @@ class Medal_Map_Shortcode {
 
         </div>
 
-        <!-- Modal do wprowadzania e-maila -->
-        <div id="email-modal-<?php echo esc_attr($container_id); ?>" class="medal-map-modal" style="display: none;">
-            <div class="medal-map-modal-content">
-                <span class="medal-map-modal-close">&times;</span>
-                <h3><?php _e('Podaj swój adres e-mail', 'medal-map'); ?></h3>
-                <p><?php _e('Aby zabrać medal, musisz podać swój adres e-mail. Zostanie on zapisany i nie będziesz musiał go podawać ponownie.', 'medal-map'); ?></p>
-                <form id="email-form-<?php echo esc_attr($container_id); ?>">
-                    <input type="email" 
-                           id="user-email-<?php echo esc_attr($container_id); ?>" 
-                           placeholder="<?php _e('Twój adres e-mail', 'medal-map'); ?>" 
-                           required 
-                           style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
-                    <button type="submit" 
-                            style="background: #0073aa; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
-                        <?php _e('Zapisz i kontynuuj', 'medal-map'); ?>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Modal do informacji o medalu -->
-        <div id="medal-modal-<?php echo esc_attr($container_id); ?>" class="medal-map-modal" style="display: none;">
-            <div class="medal-map-modal-content">
-                <span class="medal-map-modal-close">&times;</span>
-                <h3 id="medal-title-<?php echo esc_attr($container_id); ?>"></h3>
-                <div id="medal-content-<?php echo esc_attr($container_id); ?>"></div>
-                <div id="medal-actions-<?php echo esc_attr($container_id); ?>"></div>
-            </div>
-        </div>
-
         <div class="medals-table-container">
             <div class="medals-table-title">📋 Lista medali</div>
             <div class="table-wrapper">

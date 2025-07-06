@@ -85,14 +85,9 @@ class Medal_Map_Ajax {
         }
 
         $medal_id = intval($_POST['medal_id']);
-        $user_email = sanitize_email($_POST['user_email']);
 
         if (!$medal_id) {
             wp_send_json_error('Nieprawidłowy ID medalu');
-        }
-
-        if (!is_email($user_email)) {
-            wp_send_json_error('Nieprawidłowy adres e-mail');
         }
 
         $medal = Medal_Map_Database::get_medal($medal_id);
@@ -104,21 +99,7 @@ class Medal_Map_Ajax {
             wp_send_json_error('Medal nie jest dostępny');
         }
 
-        // Opcjonalne: sprawdź czy użytkownik już nie zabrał tego medalu
-        //TODO: consider to enable once providing e-mail is required
-//        global $wpdb;
-//        $table_history = $wpdb->prefix . 'medal_history';
-//        $already_taken = $wpdb->get_var($wpdb->prepare(
-//            "SELECT COUNT(*) FROM $table_history WHERE medal_id = %d AND user_email = %s",
-//            $medal_id, $user_email
-//        ));
-//
-//        if ($already_taken > 0) {
-//            wp_send_json_error('Już zabrałeś ten medal');
-//        }
-
-        // Zabierz medal
-        $result = Medal_Map_Database::take_medal($medal_id, $user_email);
+        $result = Medal_Map_Database::take_medal($medal_id);
 
         if ($result['success']) {
             wp_send_json_success(array(
@@ -130,21 +111,6 @@ class Medal_Map_Ajax {
         } else {
             wp_send_json_error($result['message']);
         }
-    }
-
-    /**
-     * Sprawdzenie czy użytkownik już zabrał medal
-     */
-    private function user_already_took_medal($medal_id, $user_email) {
-        global $wpdb;
-
-        $table_history = $wpdb->prefix . 'medal_history';
-        $count = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $table_history WHERE medal_id = %d AND user_email = %s",
-            $medal_id, $user_email
-        ));
-
-        return $count > 0;
     }
 }
 ?>
