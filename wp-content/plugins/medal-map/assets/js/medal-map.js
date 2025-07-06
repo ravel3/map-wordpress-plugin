@@ -7,8 +7,6 @@ class MedalMapSystem {
         this.options = {
             containerId: '',
             mapId: '',
-            preselectedMapId: null,
-            showSelector: true,
             autoZoom: true,
             ...options
         };
@@ -24,29 +22,9 @@ class MedalMapSystem {
     }
 
     init() {
-        if (this.options.showSelector) {
-            this.loadMaps();
-        } else if (this.options.preselectedMapId) {
-            this.loadMap(this.options.preselectedMapId);
-        }
-
-        this.setupEventListeners();
+        this.loadMap(this.options.selectedMapId);
     }
-//TODO: selector
-    setupEventListeners() {
-        // Selektor map
-        const mapSelector = this.container.querySelector('.medal-map-select');
-        if (mapSelector) {
-            mapSelector.addEventListener('change', (e) => {
-                if (e.target.value) {
-                    this.loadMap(parseInt(e.target.value));
-                }
-            });
-        }
 
-        // Modalowe okna
-        this.setupModalListeners();
-    }
 
     showLoading() {
         const loading = this.container.querySelector('.medal-map-loading');
@@ -78,53 +56,6 @@ class MedalMapSystem {
         const errorDiv = this.container.querySelector('.medal-map-error');
         if (errorDiv) errorDiv.style.display = 'none';
     }
-// TODO: selector
-    loadMaps() {
-        this.showLoading();
-
-        jQuery.ajax({
-            url: medalMapAjax.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'medal_map_get_maps',
-                nonce: medalMapAjax.nonce
-            },
-            success: (response) => {
-                if (response.success) {
-                    this.populateMapSelector(response.data);
-                    this.hideLoading();
-                } else {
-                    this.showError(response.data || medalMapAjax.messages.error);
-                }
-            },
-            error: () => {
-                this.showError(medalMapAjax.messages.error);
-            }
-        });
-    }
-//TODO: selector
-    populateMapSelector(maps) {
-        // Jeśli jest preselected map, ustaw ją
-        if (this.options.preselectedMapId) {
-            // selector.value = this.options.preselectedMapId;
-            this.loadMap(this.options.preselectedMapId);
-        }
-
-        const selector = this.container.querySelector('.medal-map-select');
-        if (!selector) return;
-
-        // Wyczyść istniejące opcje (zachowaj pierwszą)
-        while (selector.children.length > 1) {
-            selector.removeChild(selector.lastChild);
-        }
-
-        maps.forEach(map => {
-            const option = document.createElement('option');
-            option.value = map.id;
-            option.textContent = map.name;
-            selector.appendChild(option);
-        });
-    }
 
     loadMap(mapId) {
         this.showLoading();
@@ -142,7 +73,7 @@ class MedalMapSystem {
                 if (response.success) {
                     this.currentMapData = response.data;
                     this.initializeLeafletMap();
-                    this.reloadMedalsToMap();
+                    this.reloadMedalsOnMap();
                     this.updateMedalTable()
                     this.hideLoading();
                 } else {
@@ -197,7 +128,7 @@ class MedalMapSystem {
         }, 100);
     }
 
-    reloadMedalsToMap() {
+    reloadMedalsOnMap() {
         // Wyczyść istniejące markery
         this.medalMarkers.forEach(marker => {
             this.leafletMap.removeLayer(marker);
@@ -214,16 +145,6 @@ class MedalMapSystem {
     }
 
     createMedalMarker(medal) {
-        const isAvailable = medal.available_medals > 0;
-        const color = isAvailable ? medal.color : '#888888';
-        const fillOpacity = isAvailable ? 0.7 : 0.3;
-
-
-        // // Event listener dla szczegółowych informacji
-        // marker.on('click', () => {
-        //     this.showMedalModal(medal);
-        // });
-
         const marker = L.marker([medal.y_coordinate, medal.x_coordinate]);
         const popupContent = this.createPopupContent(medal);
 
@@ -277,7 +198,7 @@ class MedalMapSystem {
     }
 
 
-//TODO: use it instead of alert + display at the top of map with option to close
+//TODO: display at the top of map with option to close
     showSuccess(message) {
         let successDiv = this.container.querySelector('.medal-map-success');
         if (!successDiv) {
@@ -312,13 +233,10 @@ class MedalMapSystem {
                 success: (response) => {
                     if (response.success) {
                         this.showSuccess(`Medal "${response.data.medal_name}" został pomyślnie zabrany!`);
-
-                        const takenMedals = JSON.parse(localStorage.getItem('takenMedals') || '{}');
-                        takenMedals[medalId] = true;
-                        localStorage.setItem('takenMedals', JSON.stringify(takenMedals));
-
-                        // Odśwież mapę
-                        this.loadMap(this.currentMapData.map.id);
+                        this.markMedalTakenByUser(medalId);
+                        this.updateMedalOnMapWithResponse(response.data, medalId);
+                        this.reloadMedalsOnMap()
+                        this.updateMedalTable()
                     } else {
                         this.showError(response.data || medalMapAjax.messages.error);
                     }
@@ -327,10 +245,20 @@ class MedalMapSystem {
                     this.showError(medalMapAjax.messages.error);
                 }
             });
+    }
 
+    markMedalTakenByUser(medalId) {
+        const takenMedals = JSON.parse(localStorage.getItem('takenMedals') || '{}');
+        takenMedals[medalId] = true;
+        localStorage.setItem('takenMedals', JSON.stringify(takenMedals));
+    }
 
+    updateMedalOnMapWithResponse(medalResult, medalId) {
+        const medal = this.medals.find(m => m.id === medalId);
+        if (!medal) return;
 
-
+        medal.available_medals = medalResult.available_medals
+        medal.last_taken_at = medalResult.last_taken_at
     }
 
     resetAllMedals() {
@@ -354,11 +282,6 @@ class MedalMapSystem {
 
         this.takeMedalByUser(medalId);
         marker.closePopup();
-        // TODO: return when tabel will be available
-        // this.initializeMap(updateCounters, updateMedalTable);
-        this.reloadMedalsToMap()
-        this.updateMedalTable()
-        alert(`Medal "${medal.name}" został zebrany!`);
     }
 
     updateMedalTable() {
