@@ -18,6 +18,13 @@ class Medal_Map_Frontend {
             array(),
             '1.9.4'
         );
+        // Leaflet Fullscreen
+        wp_enqueue_style(
+            'leaflet-fullscreen-css',
+            'https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css',
+            array(),
+            '1.0.1'
+        );
 
         // Plugin CSS
         wp_enqueue_style(
@@ -33,6 +40,14 @@ class Medal_Map_Frontend {
             'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
             array(),
             '1.9.4',
+            true
+        );
+
+        wp_enqueue_script(
+            'leaflet-fullscreen-js',
+            'https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js',
+            array(),
+            '1.0.1',
             true
         );
 

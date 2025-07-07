@@ -101,7 +101,8 @@ class MedalMapSystem {
             zoomControl: true,
             scrollWheelZoom: true,
             zoomSnap: this.options.snapZoom,
-            zoomDelta: this.options.deltaZoom
+            zoomDelta: this.options.deltaZoom,
+            fullscreenControl: this.options.fullscreenControl
         });
 
         this.leafletMap._medalMapSystem = this

@@ -76,16 +76,17 @@ class Medal_Map_Shortcode {
         </div>
 
         <script>
-        jQuery(document).ready(function($) {
-            var medalMapInstance = new MedalMapSystem({
-                containerId: '<?php echo esc_js($container_id); ?>',
-                mapId: '<?php echo esc_js($map_id); ?>',
-                selectedMapId: <?php echo $atts['map_id'] ? intval($atts['map_id']) : 'null'; ?>,
-                autoZoom: <?php echo $atts['auto_zoom'] === 'true' ? 'true' : 'false'; ?>,
-                snapZoom: <?php echo $atts['snap_zoom']; ?>,
-                deltaZoom: <?php echo $atts['delta_zoom']; ?>
-        });
-        });
+            jQuery(document).ready(function ($) {
+                var medalMapInstance = new MedalMapSystem({
+                    containerId: '<?php echo esc_js($container_id); ?>',
+                    mapId: '<?php echo esc_js($map_id); ?>',
+                    selectedMapId: <?php echo $atts['map_id'] ? intval($atts['map_id']) : 'null'; ?>,
+                    autoZoom: <?php echo $atts['auto_zoom'] === 'true' ? 'true' : 'false'; ?>,
+                    snapZoom: <?php echo $atts['snap_zoom']; ?>,
+                    deltaZoom: <?php echo $atts['delta_zoom']; ?>,
+                    fullscreenControl: <?php echo $atts['fullscreen_control'] ? boolval($atts['fullscreen_control']) : 'true'; ?>
+                });
+            });
         </script>
 
         <?php
