@@ -60,3 +60,25 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+
+
+/* Table styles */
+.wp-list-table .column-coordinates {
+    width: 120px;
+}
+
+.wp-list-table .column-total_medals,
+.wp-list-table .column-available_medals {
+    width: 100px;
+    text-align: center;
+}
+
+.wp-list-table .column-last_taken_at {
+    width: 150px;
+}
+
+.wp-list-table .column-actions {
+    width: 100px;
+    text-align: center;
+}

@@ -178,6 +178,7 @@ class MedalMapSystem {
                     id="take-medal-${medal.id}" 
                     data-medal-id="${medal.id}" 
                     class="take-medal-btn"
+                    class="take-medal-btn"
                     style="background: #28a745; color: white; border: none; 
                            padding: 10px 20px; border-radius: 5px; cursor: pointer; 
                            font-weight: bold; font-size: 14px;">

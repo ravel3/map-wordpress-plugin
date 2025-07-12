@@ -195,5 +195,58 @@ class Medal_Map_Database {
             return array('success' => false, 'message' => 'Błąd bazy danych: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Add new medal
+     */
+    public static function add_medal($data) {
+        global $wpdb;
+
+        $table_medals = $wpdb->prefix . 'medal_medals';
+
+        $result = $wpdb->insert($table_medals, array(
+            'map_id' => intval($data['map_id']),
+            'name' => sanitize_text_field($data['name']),
+            'description' => sanitize_textarea_field($data['description']),
+            'pk_no' => sanitize_text_field($data['pk_no']),
+            'x_coordinate' => intval($data['x_coordinate']),
+            'y_coordinate' => intval($data['y_coordinate']),
+            'total_medals' => intval($data['total_medals']),
+            'available_medals' => intval($data['available_medals'])
+        ));
+
+        return $result ? $wpdb->insert_id : false;
+    }
+
+    /**
+     * Update medal
+     */
+    public static function update_medal($medal_id, $data) {
+        global $wpdb;
+
+        $table_medals = $wpdb->prefix . 'medal_medals';
+
+        $result = $wpdb->update($table_medals, array(
+            'name' => sanitize_text_field($data['name']),
+            'description' => sanitize_textarea_field($data['description']),
+            'pk_no' => sanitize_text_field($data['pk_no']),
+            'x_coordinate' => intval($data['x_coordinate']),
+            'y_coordinate' => intval($data['y_coordinate']),
+            'total_medals' => intval($data['total_medals']),
+            'available_medals' => intval($data['available_medals'])
+        ), array('id' => intval($medal_id)));
+
+        return $result !== false;
+    }
+
+    /**
+     * Delete medal
+     */
+    public static function delete_medal($medal_id) {
+        global $wpdb;
+
+        $table_medals = $wpdb->prefix . 'medal_medals';
+        return $wpdb->delete($table_medals, array('id' => intval($medal_id)));
+    }
 }
 ?>

@@ -1,0 +1,46 @@
+<!-- Modal do edycji/dodawania medalu -->
+<div id="medal-modal" class="medal-modal">
+    <div class="medal-modal-content">
+        <span class="medal-modal-close">&times;</span>
+        <h2 id="modal-title">Dodaj Medal</h2>
+        <form id="medal-form">
+            <table class="form-table">
+                <tr>
+                    <th><label for="medal_name">Nazwa:</label></th>
+                    <td><input type="text" id="medal_name" name="medal_name" required></td>
+                </tr>
+                <tr>
+                    <th><label for="medal_description">Opis:</label></th>
+                    <td><textarea id="medal_description" name="medal_description" rows="3"></textarea></td>
+                </tr>
+                <tr>
+                    <th><label for="medal_pk_no">Numer PK:</label></th>
+                    <td><input type="text" id="medal_pk_no" name="medal_pk_no"></td>
+                </tr>
+                <tr>
+                    <th><label for="medal_x_coordinate">Współrzędna X:</label></th>
+                    <td><input type="number" id="medal_x_coordinate" name="x_coordinate" required min="0"></td>
+                </tr>
+                <tr>
+                    <th><label for="medal_y_coordinate">Współrzędna Y:</label></th>
+                    <td><input type="number" id="medal_y_coordinate" name="y_coordinate" required min="0"></td>
+                </tr>
+                <tr>
+                    <th><label for="medal_total_medals">Łączna liczba medali:</label></th>
+                    <td><input type="number" id="medal_total_medals" name="total_medals" value="1" min="1"></td>
+                </tr>
+                <tr>
+                    <th><label for="medal_available_medals">Dostępne medale:</label></th>
+                    <td><input type="number" id="medal_available_medals" name="available_medals" value="1" min="0"></td>
+                </tr>
+            </table>
+            <p class="submit">
+                <button type="submit" class="button button-primary">Zapisz</button>
+                <button type="button" class="button" id="cancel-edit">Anuluj</button>
+            </p>
+            <!-- map_id and medal_id are hidden and immutable, set only by JS -->
+            <input type="hidden" id="medal_id" name="medal_id" value="0">
+            <input type="hidden" id="medal_map_id" name="map_id" value="">
+        </form>
+    </div>
+</div> 

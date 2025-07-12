@@ -65,6 +65,7 @@ class MedalMapPlugin
 
         if (is_admin()) {
             require_once MEDAL_MAP_PLUGIN_PATH . 'admin/class-admin.php';
+            require_once MEDAL_MAP_PLUGIN_PATH . 'includes/class-medal-list-table.php';
         }
     }
 

@@ -13,6 +13,7 @@ class Medal_Map_Admin {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
         add_action('admin_init', array($this, 'handle_admin_actions'));
+        add_action('admin_init', array($this, 'handle_medal_delete'));
     }
 
     /**
@@ -77,26 +78,29 @@ class Medal_Map_Admin {
 
         wp_enqueue_media();
         wp_enqueue_script('jquery-ui-sortable');
-
-        wp_enqueue_style(
-            'medal-map-admin-css',
-            MEDAL_MAP_PLUGIN_URL . 'admin/admin.css',
-            array(),
-            MEDAL_MAP_VERSION
-        );
-
-        wp_enqueue_script(
-            'medal-map-admin-js',
-            MEDAL_MAP_PLUGIN_URL . 'admin/admin.js',
-            array('jquery', 'jquery-ui-sortable'),
-            MEDAL_MAP_VERSION,
-            true
-        );
-
+        wp_enqueue_style('medal-map-admin-css', MEDAL_MAP_PLUGIN_URL . 'admin/admin.css', array(), MEDAL_MAP_VERSION);
+        wp_enqueue_script('medal-map-admin-js', MEDAL_MAP_PLUGIN_URL . 'admin/admin.js', array('jquery', 'jquery-ui-sortable'), MEDAL_MAP_VERSION, true);
+        
         wp_localize_script('medal-map-admin-js', 'medalMapAdmin', array(
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('medal_map_admin_nonce')
+            'nonce' => wp_create_nonce('medal_map_admin_nonce'),
+            'plugin_url' => MEDAL_MAP_PLUGIN_URL . 'admin/'
         ));
+    }
+
+    /**
+     * Obsługa usuwania medalu - osobny handler
+     */
+    public function handle_medal_delete() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        if (isset($_GET['action']) && $_GET['action'] === 'medal_delete' && isset($_GET['id']) && isset($_GET['map_id'])) {
+            if (wp_verify_nonce($_GET['_wpnonce'], 'delete_medal_' . $_GET['id'])) {
+                $this->handle_delete_medal($_GET['id'], $_GET['map_id']);
+            }
+        }
     }
 
     /**
@@ -118,7 +122,7 @@ class Medal_Map_Admin {
         }
 
         // Usuwanie mapy
-        if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+        if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id']) && !isset($_GET['map_id'])) {
             if (wp_verify_nonce($_GET['_wpnonce'], 'delete_map_' . $_GET['id'])) {
                 $this->handle_delete_map($_GET['id']);
             }
@@ -415,10 +419,41 @@ class Medal_Map_Admin {
      * Strona medali
      */
     public function medals_page() {
+        // If this is a delete action, don't render the page
+        if (isset($_GET['action']) && $_GET['action'] === 'medal_delete') {
+            return;
+        }
+        
+        $map_id = isset($_GET['map_id']) ? intval($_GET['map_id']) : 1;
+        
+        // Get map info
+        $map = Medal_Map_Database::get_map($map_id);
+        if (!$map) {
+            wp_die(__('Mapa nie została znaleziona.', 'medal-map'));
+        }
         ?>
         <div class="wrap">
-            <h1><?php _e('Zarządzanie Medalami', 'medal-map'); ?></h1>
-            <p><?php _e('Funkcjonalność zarządzania medalami będzie dostępna w pełnej wersji.', 'medal-map'); ?></p>
+            <h1>
+                <?php printf(__('Zarządzanie Medalami - %s', 'medal-map'), esc_html($map->name)); ?>
+                <a href="<?php echo admin_url('admin.php?page=medal-map'); ?>" class="page-title-action">
+                    <?php _e('Powrót do Map', 'medal-map'); ?>
+                </a>
+            </h1>
+
+            <?php $this->show_admin_notices(); ?>
+
+            <div class="medal-controls">
+                <button id="add-medal" class="button button-primary">
+                    <?php _e('Dodaj Medal', 'medal-map'); ?>
+                </button>
+            </div>
+
+            <?php
+            require_once(MEDAL_MAP_PLUGIN_PATH . 'includes/class-medal-list-table.php');
+            $medal_table = new Medal_List_Table($map_id);
+            $medal_table->prepare_items();
+            $medal_table->display();
+            ?>
         </div>
         <?php
     }
@@ -509,6 +544,25 @@ class Medal_Map_Admin {
         }
 
         wp_redirect(admin_url('admin.php?page=medal-map'));
+        exit;
+    }
+
+    /**
+     * Obsługa usuwania medalu
+     */
+    private function handle_delete_medal($medal_id, $map_id) {
+        global $wpdb;
+
+        $table_medals = $wpdb->prefix . 'medal_medals';
+        $result = $wpdb->delete($table_medals, array('id' => intval($medal_id)));
+
+        if ($result) {
+            $this->add_admin_notice(__('Medal został pomyślnie usunięty.', 'medal-map'), 'success');
+        } else {
+            $this->add_admin_notice(__('Błąd podczas usuwania medalu.', 'medal-map'), 'error');
+        }
+
+        wp_redirect(admin_url('admin.php?page=medal-map-medals&map_id=' . $map_id));
         exit;
     }
 
