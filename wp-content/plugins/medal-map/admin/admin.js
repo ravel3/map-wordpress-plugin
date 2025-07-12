@@ -33,9 +33,5 @@ jQuery(document).ready(function($) {
         });
     }
     
-    // Conditional loading of map management scripts
-    if (window.location.href.indexOf('page=medal-map-add') !== -1) {
-        $.getScript(medalMapAdmin.plugin_url + 'map-management.js');
-        debugger;
-    }
+
 });
