@@ -40,7 +40,7 @@ class Medal_Map_Admin {
         );
 
         add_submenu_page(
-            'medal-map',
+            null, //hidden
             __('Dodaj Mapę', 'medal-map'),
             __('Dodaj Mapę', 'medal-map'),
             'manage_options',
@@ -49,7 +49,7 @@ class Medal_Map_Admin {
         );
 
         add_submenu_page(
-            'medal-map',
+            null, //hidden
             __('Medale', 'medal-map'),
             __('Medale', 'medal-map'),
             'manage_options',
@@ -58,7 +58,7 @@ class Medal_Map_Admin {
         );
 
         add_submenu_page(
-            'medal-map',
+            null, //hidden
             __('Historia', 'medal-map'),
             __('Historia', 'medal-map'),
             'manage_options',
