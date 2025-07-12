@@ -1,0 +1,96 @@
+/**
+ * Medal Inline Edit CSS
+ * Styles for inline editing of medals in the table
+ */
+
+.new-medal-row {
+    background-color: #f9f9f9 !important;
+    border-left: 4px solid #0073aa !important;
+}
+
+.medal-name-input,
+.medal-description-input,
+.medal-pk-no-input {
+    border: 1px solid #ddd;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.medal-description-input {
+    resize: vertical;
+    min-height: 40px;
+}
+
+.medal-x-coord-input,
+.medal-y-coord-input,
+.medal-total-input,
+.medal-available-input {
+    border: 1px solid #ddd;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.medal-coordinates-inputs {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.medal-actions .save-medal {
+    background-color: #0073aa !important;
+    border-color: #0073aa !important;
+    color: white !important;
+}
+
+.medal-actions .cancel-edit {
+    background-color: #dc3232 !important;
+    border-color: #dc3232 !important;
+    color: white !important;
+}
+
+.medal-actions .edit-medal {
+    background-color: #46b450 !important;
+    border-color: #46b450 !important;
+    color: white !important;
+}
+
+.medal-actions .delete-medal {
+    background-color: #dc3232 !important;
+    border-color: #dc3232 !important;
+    color: white !important;
+}
+
+.medal-actions .button {
+    margin-right: 5px !important;
+}
+
+.medal-actions .button:last-child {
+    margin-right: 0 !important;
+}
+
+/* Highlight editing row */
+.wp-list-table tr.editing {
+    background-color: #fff8e1 !important;
+    border-left: 4px solid #ff9800 !important;
+}
+
+/* Smooth transitions */
+.wp-list-table td {
+    transition: background-color 0.2s ease;
+}
+
+/* Input focus styles */
+.medal-name-input:focus,
+.medal-description-input:focus,
+.medal-pk-no-input:focus,
+.medal-x-coord-input:focus,
+.medal-y-coord-input:focus,
+.medal-total-input:focus,
+.medal-available-input:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 1px #0073aa;
+    outline: none;
+} 

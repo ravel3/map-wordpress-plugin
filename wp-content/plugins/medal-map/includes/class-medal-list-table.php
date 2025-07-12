@@ -46,35 +46,57 @@ class Medal_List_Table extends WP_List_Table {
     public function column_default($item, $column_name) {
         switch ($column_name) {
             case 'description':
-                return wp_trim_words($item->description, 10);
+                return sprintf(
+                    '<span class="medal-description" data-medal-id="%d">%s</span>',
+                    $item->id,
+                    wp_trim_words($item->description, 10)
+                );
+            case 'pk_no':
+                return sprintf(
+                    '<span class="medal-pk-no" data-medal-id="%d">%s</span>',
+                    $item->id,
+                    esc_html($item->pk_no)
+                );
             case 'coordinates':
-                return sprintf('X: %d, Y: %d', $item->x_coordinate, $item->y_coordinate);
+                return sprintf(
+                    '<span class="medal-coordinates" data-medal-id="%d">X: %d, Y: %d</span>',
+                    $item->id,
+                    $item->x_coordinate,
+                    $item->y_coordinate
+                );
+            case 'total_medals':
+                return sprintf(
+                    '<span class="medal-total" data-medal-id="%d">%d</span>',
+                    $item->id,
+                    $item->total_medals
+                );
+            case 'available_medals':
+                return sprintf(
+                    '<span class="medal-available" data-medal-id="%d">%d</span>',
+                    $item->id,
+                    $item->available_medals
+                );
             case 'last_taken_at':
-                return $item->last_taken_at ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($item->last_taken_at)) : __('Nigdy', 'medal-map');
+                return sprintf(
+                    '<span class="medal-last-taken" data-medal-id="%d">%s</span>',
+                    $item->id,
+                    $item->last_taken_at ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($item->last_taken_at)) : __('Nigdy', 'medal-map')
+                );
             default:
-                return $item->$column_name;
+                return sprintf(
+                    '<span class="medal-%s" data-medal-id="%d">%s</span>',
+                    $column_name,
+                    $item->id,
+                    esc_html($item->$column_name)
+                );
         }
     }
 
     public function column_name($item) {
-        $actions = array(
-            'edit' => sprintf(
-                '<a href="#" class="edit-medal" data-id="%d">%s</a>',
-                $item->id,
-                __('Edytuj', 'medal-map')
-            ),
-            'delete' => sprintf(
-                '<a href="%s" onclick="return confirm(\'%s\')">%s</a>',
-                wp_nonce_url(admin_url('admin.php?page=medal-map-medals&action=medal_delete&id=' . $item->id . '&map_id=' . $this->map_id), 'delete_medal_' . $item->id),
-                __('Czy na pewno chcesz usunąć ten medal?', 'medal-map'),
-                __('Usuń', 'medal-map')
-            )
-        );
-
         return sprintf(
-            '<strong>%1$s</strong> %2$s',
-            esc_html($item->name),
-            $this->row_actions($actions)
+            '<span class="medal-name" data-medal-id="%d">%s</span>',
+            $item->id,
+            esc_html($item->name)
         );
     }
 
@@ -82,9 +104,23 @@ class Medal_List_Table extends WP_List_Table {
 
     public function column_actions($item) {
         return sprintf(
-            '<a href="#" class="button button-small edit-medal" data-id="%d">%s</a>',
+            '<div class="medal-actions" data-medal-id="%d">
+                <a href="#" class="button button-small edit-medal" data-id="%d">%s</a>
+                <a href="#" class="button button-small save-medal" data-id="%d" style="display:none;">%s</a>
+                <a href="#" class="button button-small cancel-edit" data-id="%d" style="display:none;">%s</a>
+                <a href="%s" class="button button-small delete-medal" data-id="%d" onclick="return confirm(\'%s\')">%s</a>
+            </div>',
             $item->id,
-            __('Edytuj', 'medal-map')
+            $item->id,
+            __('Edytuj', 'medal-map'),
+            $item->id,
+            __('Zapisz', 'medal-map'),
+            $item->id,
+            __('Anuluj', 'medal-map'),
+            wp_nonce_url(admin_url('admin.php?page=medal-map-medals&action=medal_delete&id=' . $item->id . '&map_id=' . $this->map_id), 'delete_medal_' . $item->id),
+            $item->id,
+            __('Czy na pewno chcesz usunąć ten medal?', 'medal-map'),
+            __('Usuń', 'medal-map')
         );
     }
 

@@ -86,6 +86,12 @@ class Medal_Map_Admin {
             wp_enqueue_script('medal-map-management-js', MEDAL_MAP_PLUGIN_URL . 'admin/map-management.js', array('jquery', 'medal-map-admin-js'), MEDAL_MAP_VERSION, true);
         }
         
+        // Load medal inline edit script and CSS for medals page
+        if (strpos($hook, 'medal-map-medals') !== false) {
+            wp_enqueue_style('medal-inline-edit-css', MEDAL_MAP_PLUGIN_URL . 'admin/medal-inline-edit.css', array(), MEDAL_MAP_VERSION);
+            wp_enqueue_script('medal-inline-edit-js', MEDAL_MAP_PLUGIN_URL . 'admin/medal-inline-edit.js', array('jquery', 'medal-map-admin-js'), MEDAL_MAP_VERSION, true);
+        }
+        
         wp_localize_script('medal-map-admin-js', 'medalMapAdmin', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('medal_map_admin_nonce'),
