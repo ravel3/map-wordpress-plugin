@@ -61,22 +61,55 @@
     border: 2px dashed #dee2e6;
 }
 
-.medal-map-error {
-    padding: 15px;
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
+/* Base styles for both success and error messages */
+.medal-map-message {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    padding: 15px 40px 15px 15px;
     border-radius: 6px;
-    color: #721c24;
-    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.4;
+    z-index: 9999;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
+/* Close button shared style */
+.medal-map-message .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 5px;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.medal-map-message .close-btn:focus {
+    outline: 2px solid;
+    outline-offset: 2px;
+}
+
+/* Success-specific */
 .medal-map-success {
-    padding: 15px;
     background: #d4edda;
     border: 1px solid #c3e6cb;
-    border-radius: 6px;
     color: #155724;
-    margin: 10px 0;
+}
+
+/* Error-specific */
+.medal-map-error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
 }
 
 

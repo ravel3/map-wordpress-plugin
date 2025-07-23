@@ -38,19 +38,7 @@ class MedalMapSystem {
         if (loading) loading.style.display = 'none';
     }
 
-    showError(message) {
-        this.hideLoading();
 
-        let errorDiv = this.container.querySelector('.medal-map-error');
-        if (!errorDiv) {
-            errorDiv = document.createElement('div');
-            errorDiv.className = 'medal-map-error';
-            this.container.appendChild(errorDiv);
-        }
-
-        errorDiv.textContent = message;
-        errorDiv.style.display = 'block';
-    }
 
     hideError() {
         const errorDiv = this.container.querySelector('.medal-map-error');
@@ -200,22 +188,48 @@ class MedalMapSystem {
     }
 
 
-//TODO: display at the top of map with option to close
-    showSuccess(message) {
-        let successDiv = this.container.querySelector('.medal-map-success');
-        if (!successDiv) {
-            successDiv = document.createElement('div');
-            successDiv.className = 'medal-map-success';
-            this.container.appendChild(successDiv);
-        }
+    showMessage(type, message) {
+        const mapContainer = this.mapElement;
+        if (!mapContainer) return;
 
-        successDiv.textContent = message;
-        successDiv.style.display = 'block';
+        // Ensure relative positioning for absolute overlay
+        mapContainer.style.position = 'relative';
 
+        const existing = mapContainer.querySelector(`.medal-map-${type}`);
+        if (existing) existing.remove();
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `medal-map-message medal-map-${type}`;
+        messageDiv.innerHTML = `
+        <span class="message-text">${message}</span>
+        <button class="close-btn" aria-label="Close">&times;</button>
+    `;
+
+        mapContainer.appendChild(messageDiv);
+
+        // Close on click
+        messageDiv.querySelector('.close-btn').addEventListener('click', () => {
+            messageDiv.remove();
+        });
+
+        // Auto-hide after 5s
         setTimeout(() => {
-            successDiv.style.display = 'none';
+            if (messageDiv.parentElement) {
+                messageDiv.remove();
+            }
         }, 5000);
     }
+
+// Convenience wrappers
+    showSuccess(message) {
+        this.showMessage('success', message);
+    }
+
+    showError(message) {
+        this.hideLoading();
+        this.showMessage('error', message);
+    }
+
 
     takeMedalByUser(medalId) {
             jQuery.ajax({
