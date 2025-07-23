@@ -134,7 +134,16 @@ class MedalMapSystem {
     }
 
     createMedalMarker(medal) {
-        const marker = L.marker([medal.y_coordinate, medal.x_coordinate]);
+        const redIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        const marker = L.marker([medal.y_coordinate, medal.x_coordinate], { icon: redIcon });
         const popupContent = this.createPopupContent(medal);
 
         marker.bindPopup(popupContent);
