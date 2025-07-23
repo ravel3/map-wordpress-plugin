@@ -170,10 +170,9 @@ class MedalMapSystem {
     }
 
     createPopupContent(medal) {
-        const takenByUser = this.medalTakenByUser(medal.id);
         let button = "";
 
-        if (takenByUser === false && medal.available_medals > 0) {
+        if (medal.available_medals > 0) {
             button = `<button 
                     id="take-medal-${medal.id}" 
                     data-medal-id="${medal.id}" 
@@ -186,6 +185,7 @@ class MedalMapSystem {
                   </button>`;
         }
         let lastTakenAt = medal.last_taken_at ? medal.last_taken_at : 'Nigdy'
+
         return `
         <div style="text-align: center; min-width: 200px;">
             <h3 style="margin: 0 0 10px 0; color: #2c5aa0;">🏅 ${medal.name}</h3>
@@ -217,12 +217,6 @@ class MedalMapSystem {
         }, 5000);
     }
 
-
-    medalTakenByUser(medalId) {
-        const takenMedals = JSON.parse(localStorage.getItem('takenMedals') || '{}');
-        return takenMedals[medalId] || false;
-    }
-
     takeMedalByUser(medalId) {
             jQuery.ajax({
                 url: medalMapAjax.ajax_url,
@@ -235,7 +229,6 @@ class MedalMapSystem {
                 success: (response) => {
                     if (response.success) {
                         this.showSuccess(`Medal "${response.data.medal_name}" został pomyślnie zabrany!`);
-                        this.markMedalTakenByUser(medalId);
                         this.updateMedalOnMapWithResponse(response.data, medalId);
                         this.reloadMedalsOnMap()
                         this.updateMedalTable()
@@ -247,12 +240,6 @@ class MedalMapSystem {
                     this.showError(medalMapAjax.messages.error);
                 }
             });
-    }
-
-    markMedalTakenByUser(medalId) {
-        const takenMedals = JSON.parse(localStorage.getItem('takenMedals') || '{}');
-        takenMedals[medalId] = true;
-        localStorage.setItem('takenMedals', JSON.stringify(takenMedals));
     }
 
     updateMedalOnMapWithResponse(medalResult, medalId) {
@@ -274,13 +261,6 @@ class MedalMapSystem {
     takeMedal(medalId, marker) {
         const medal = this.medals.find(m => m.id === medalId);
         if (!medal) return;
-
-
-        const takenByUser = this.medalTakenByUser(medalId);
-        if (takenByUser === true) {
-            alert(`Już zabrałeś medal "${medal.name}"! Każdy może zabrać tylko jeden medal tego typu.`);
-            return;
-        }
 
         this.takeMedalByUser(medalId);
         marker.closePopup();
