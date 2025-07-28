@@ -57,7 +57,7 @@ class Medal_Map_Shortcode {
             </div>
 
             <div id="<?php echo esc_attr($map_id); ?>" 
-                 style="width: <?php echo esc_attr($atts['width']); ?>; height: <?php echo esc_attr($atts['height']); ?>; display: none;  background-color: transparent !important;">
+                 style="width: <?php echo esc_attr($atts['width']); ?>; height: <?php echo esc_attr($atts['height']); ?>; display: none;  background-color: transparent !important; margin: 0 auto;">
             </div>
 
         </div>

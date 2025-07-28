@@ -379,23 +379,12 @@
     100% { transform: rotate(360deg); }
 }
 
-.medals-table-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #2c5aa0;
-    margin-bottom: 20px;
-    padding: 10px;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
 .medals-table-container {
     height: 30vh;
     background: transparent;
-    padding: 15px;
+    padding-top: 20px;
     box-sizing: border-box;
+    margin: 0 auto;
 }
 
 .medals-table-title {
