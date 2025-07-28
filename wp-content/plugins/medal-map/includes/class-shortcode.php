@@ -57,12 +57,12 @@ class Medal_Map_Shortcode {
             </div>
 
             <div id="<?php echo esc_attr($map_id); ?>" 
-                 style="width: <?php echo esc_attr($atts['width']); ?>; height: <?php echo esc_attr($atts['height']); ?>; display: none;">
+                 style="width: <?php echo esc_attr($atts['width']); ?>; height: <?php echo esc_attr($atts['height']); ?>; display: none;  background-color: transparent !important;">
             </div>
 
         </div>
 
-        <div class="medals-table-container">
+        <div class="medals-table-container" style="width: <?php echo esc_attr($atts['width']); ?>;">
             <div class="medals-table-title">📋 Lista medali</div>
             <div class="table-wrapper">
                 <table id="medalsTable">

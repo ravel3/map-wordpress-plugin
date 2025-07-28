@@ -79,48 +79,6 @@ class Medal_Map_Frontend {
 
     public function add_custom_styles() {
         ?>
-        <style>
-        .medal-map-container {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .medal-map-controls {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .medal-map-select {
-            width: 100%;
-            max-width: 300px;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .medal-map-loading {
-            text-align: center;
-            padding: 20px;
-            font-style: italic;
-            color: #666;
-        }
-
-        .medal-map-error {
-            padding: 15px;
-            background: #ffe6e6;
-            border: 1px solid #ff9999;
-            border-radius: 4px;
-            color: #cc0000;
-            margin: 10px 0;
-        }
-
-        </style>
         <?php
     }
 }

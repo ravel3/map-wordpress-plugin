@@ -4,7 +4,6 @@
 .medal-map-container {
     position: relative;
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
@@ -394,8 +393,7 @@
 
 .medals-table-container {
     height: 30vh;
-    overflow-y: auto;
-    background-color: #ffffff;
+    background: transparent;
     padding: 15px;
     box-sizing: border-box;
 }
