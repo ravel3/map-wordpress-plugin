@@ -295,8 +295,8 @@ class MedalMapSystem {
         this.medals.sort((a, b) => a.id - b.id)
             .forEach(medal => {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td data-label="Nazwa Medalu">${medal.pk_no} ${medal.name}</td>
-                        <td data-label="Medale" class="${medal.available_medals > 0 ? 'medal-count-available' : 'medal-count-zero'}">
+                row.innerHTML = `<td data-label="Nazwa PK">${medal.pk_no} ${medal.name}</td>
+                        <td data-label="Dostępne medale" class="${medal.available_medals > 0 ? 'medal-count-available' : 'medal-count-zero'}">
                         ${medal.available_medals}/${medal.total_medals} </td>`;
 
                 tableBody.appendChild(row);

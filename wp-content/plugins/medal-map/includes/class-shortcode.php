@@ -66,7 +66,7 @@ class Medal_Map_Shortcode {
                     <thead>
                     <tr>
                         <th>Nazwa PK</th>
-                        <th>Liczba dostępnych medali</th>
+                        <th>Dostępne medale</th>
                     </tr>
                     </thead>
                     <tbody id="medalsTableBody">
