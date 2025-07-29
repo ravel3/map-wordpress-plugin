@@ -7,7 +7,6 @@ class MedalMapSystem {
         this.options = {
             containerId: '',
             mapId: '',
-            autoZoom: true,
             ...options
         };
 
@@ -88,17 +87,12 @@ class MedalMapSystem {
             maxZoom: map.max_zoom,
             zoomControl: true,
             scrollWheelZoom: true,
-            zoomSnap: this.options.snapZoom,
+            zoomSnap: 0, // A value of 0 means the zoom level will not be snapped after fitBounds or a pinch-zoom.
             zoomDelta: this.options.deltaZoom,
             fullscreenControl: this.options.fullscreenControl
         });
 
         this.leafletMap._medalMapSystem = this
-
-        // utility method to get medals coordinates - output in a browser console
-        this.leafletMap.on('click', function (e) {
-            console.log('x: ' + e.latlng.lng + ', y: ' + e.latlng.lat + ',');
-        });
 
         // Dodaj obraz jako podkład
         this.imageBounds = [[0, 0], [this.currentMapData.map.image_height, this.currentMapData.map.image_width]];
@@ -106,15 +100,22 @@ class MedalMapSystem {
 
         // Ustaw widok
         this.leafletMap.setMaxBounds(this.imageBounds);
-        this.leafletMap.setView([map.image_height / 2,  map.image_width / 2], map.default_zoom);
 
         // Pokaż mapę
         this.mapElement.style.display = 'block';
 
-        // Invalidate size po pokazaniu
         setTimeout(() => {
-            this.leafletMap.invalidateSize();
+            this.leafletMap.fitBounds(this.imageBounds)
         }, 100);
+
+        // utility method to get medals coordinates - output in a browser console
+        this.leafletMap.on('click', function (e) {
+            console.log('x: ' + e.latlng.lng + ', y: ' + e.latlng.lat + ',');
+        });
+
+        this.leafletMap.on('zoomend', function() {
+            console.log("Current zoom level: " + this.getZoom());
+        });
     }
 
     reloadMedalsOnMap() {

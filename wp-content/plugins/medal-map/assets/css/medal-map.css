@@ -504,3 +504,7 @@
         color: #2c5aa0;
     }
 }
+
+:fullscreen::backdrop {
+    background: rgba(255,255,255,1.0);
+}
