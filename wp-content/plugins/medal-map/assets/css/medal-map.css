@@ -391,10 +391,10 @@
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #2c5aa0;
+    color: #444;
     margin-bottom: 20px;
     padding: 10px;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    background: linear-gradient(135deg, #dbdbdb, #c6c6c6); /* Darker light-gray gradient */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -413,27 +413,29 @@
 }
 
 #medalsTable th {
-    background: linear-gradient(135deg, #2c5aa0, #1976d2);
-    color: white;
+    background: linear-gradient(135deg, #dbdbdb, #c6c6c6); /* Gray gradient */
+    color: #444; /* Dark gray text for better contrast */
     padding: 12px 8px;
     text-align: center;
     font-weight: bold;
-    border: 1px solid #1565c0;
+    border: 1px solid #bbb; /* Subtle gray border */
 }
 
 #medalsTable td {
     padding: 10px 8px;
     text-align: center;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #ddd; /* Light gray border */
     vertical-align: middle;
+  /*  color: #333;*/ /* Nearly black for legibility */
+    background-color: #f7f7f7; /* Very light gray background for cells */
 }
 
 #medalsTable tbody tr:nth-child(even) {
-    background-color: #f8f9fa;
+    background-color: #eaeaea; /* Alternate row - slightly darker gray */
 }
 
 #medalsTable tbody tr:hover {
-    background-color: #e3f2fd;
+    background-color: #d0d0d0; /* Hover - darker gray */
     transition: background-color 0.2s ease;
 }
 

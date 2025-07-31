@@ -177,7 +177,7 @@ class MedalMapSystem {
                     style="background: #28a745; color: white; border: none; 
                            padding: 10px 20px; border-radius: 5px; cursor: pointer; 
                            font-weight: bold; font-size: 14px;">
-                    🏅 Zabieram medal
+                    🏅 Mam medal
                   </button>`;
         }
         let lastTakenAt = medal.last_taken_at ? medal.last_taken_at : 'Nigdy'
