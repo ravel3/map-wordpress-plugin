@@ -426,7 +426,6 @@
     text-align: center;
     border: 1px solid #ddd; /* Light gray border */
     vertical-align: middle;
-  /*  color: #333;*/ /* Nearly black for legibility */
     background-color: #f7f7f7; /* Very light gray background for cells */
 }
 
