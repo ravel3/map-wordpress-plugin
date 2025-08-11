@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Stałe pluginu
-define('MEDAL_MAP_VERSION', '1.0.1');
+define('MEDAL_MAP_VERSION', '1.0.2');
 define('MEDAL_MAP_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('MEDAL_MAP_PLUGIN_PATH', plugin_dir_path(__FILE__));
 require_once MEDAL_MAP_PLUGIN_PATH . 'includes/class-database.php';
